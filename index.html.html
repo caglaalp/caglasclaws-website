@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>caglasclaws Randevu</title>
+    <style>
+        /* Styling as before */
+        body {
+            background-color: #f8d3e1;
+            color: #5b3f72;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .booking-form {
+            display: none; /* Hide initially */
+            margin-top: 30px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 192, 203, 0.7);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .booking-form input, .booking-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        .booking-form button {
+            background-color: #5b3f72;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>caglasclaws Randevu</h1>
+    <h2>Tırnaklarınız da sizin kadar güzel olsun</h2>
+    <button onclick="openBookingForm()">Hemen Randevu Alın</button>
+
+    <div class="booking-form" id="bookingForm">
+        <h3>Randevu Al</h3>
+        <form onsubmit="return bookAppointment(event)">
+            <label for="name">Ad Soyad:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">E-posta:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="service">Hizmet Seçiniz:</label>
+            <select id="service" name="service" required>
+                <option value="manicure">Manikür</option>
+                <option value="pedicure">Pedikür</option>
+                <option value="acrylic-nails">Akrilik Tırnak</option>
+                <option value="gel-nails">Jel Tırnak</option>
+            </select>
+
+            <label for="date">Tarih:</label>
+            <input type="date" id="date" name="date" required>
+
+            <button type="submit">Randevu Al</button>
+        </form>
+    </div>
+
+    <script>
+        const availableDates = new Set([
+            "2023-11-02", "2023-11-03", "2023-11-04", "2023-11-05",
+            "2023-11-06", "2023-11-07", "2023-11-08", "2023-11-09",
+            "2023-11-10"
+        ]);
+
+        function openBookingForm() {
+            document.getElementById('bookingForm').style.display = 'block';
+        }
+
+        function bookAppointment(event) {
+            event.preventDefault();
+            const selectedDate = document.getElementById('date').value;
+            if (!isDateAvailable(selectedDate)) {
+                alert("Bu tarih dolu, lütfen başka bir tarih seçin.");
+                return;
+            }
+            alert("Randevunuz başarıyla alındı!");
+            availableDates.delete(selectedDate);
+            document.getElementById('bookingForm').style.display = 'none';
+        }
+
+        function isDateAvailable(date) {
+            const selected = new Date(date);
+            const dayOfWeek = selected.getDay();
+
+            // Allow Saturday and Sunday, and check if date is in the allowed list
+            return (dayOfWeek === 6 || dayOfWeek === 0 || availableDates.has(date));
+        }
+    </script>
+</body>
+</html>
